@@ -13,22 +13,22 @@ from .data import future_frame
 from .features import build_features
 
 
-def fit(df: pd.DataFrame, target: str, params: dict | None = None) -> tuple[xgb.XGBRegressor, list[str]]:
+def fit(df: pd.DataFrame, target: str, params: dict | None = None) -> tuple[xgb.Booster, list[str]]:
     X = build_features(df, target)
     mask = X.notna().all(axis=1) & (df["closed"] == 0)
-    model = xgb.XGBRegressor(**(params or config.XGB_PARAMS))
-    model.fit(X[mask], df.loc[mask, target])
+    dtrain = xgb.DMatrix(X[mask], label=df.loc[mask, target])
+    model = xgb.train(params or config.XGB_PARAMS, dtrain, num_boost_round=config.XGB_ROUNDS)
     return model, list(X.columns)
 
 
-def predict_window(model: xgb.XGBRegressor, history: pd.DataFrame, future: pd.DataFrame,
+def predict_window(model: xgb.Booster, history: pd.DataFrame, future: pd.DataFrame,
                    target: str) -> np.ndarray:
     """Predict rows of `future` (len <= HORIZON) given `history` up to the origin."""
     if len(future) > config.HORIZON:
         raise ValueError(f"Horizon {len(future)} exceeds trained maximum {config.HORIZON}.")
     combo = pd.concat([history, future.assign(**{target: np.nan})], ignore_index=True)
     X = build_features(combo, target).iloc[-len(future):]
-    pred = np.clip(model.predict(X).astype("float64"), 0, None)
+    pred = np.clip(model.predict(xgb.DMatrix(X)).astype("float64"), 0, None)
     pred[future["closed"].values == 1] = 0
     return pred
 
@@ -47,7 +47,7 @@ def load() -> tuple[dict, dict]:
     meta = json.loads((config.MODEL_DIR / "model_meta.json").read_text())
     models = {}
     for target in config.TARGETS:
-        m = xgb.XGBRegressor()
+        m = xgb.Booster()
         m.load_model(config.MODEL_DIR / f"xgb_{target}.json")
         models[target] = m
     return models, meta

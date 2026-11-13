@@ -64,7 +64,7 @@ def main(quick: bool = False) -> dict:
         "targets": config.TARGETS,
         "horizon_days": config.HORIZON,
         "features": features,
-        "params": config.XGB_PARAMS,
+        "params": {**config.XGB_PARAMS, "num_boost_round": config.XGB_ROUNDS},
         "seed": config.SEED,
         "train_start": str(df["date"].min().date()),
         "train_end": str(df["date"].max().date()),

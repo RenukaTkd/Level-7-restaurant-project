@@ -21,17 +21,19 @@ TARGETS = ["covers", "revenue"]   # covers drives staffing/prep, revenue drives 
 HORIZON = 14                      # days ahead (two-week rota cycle)
 MIN_LAG = HORIZON                 # direct strategy: only use lags >= horizon (no leakage)
 
+# Native XGBoost (Booster) API — no scikit-learn dependency, keeps the Vercel bundle small.
+XGB_ROUNDS = 600
 XGB_PARAMS = {
-    "n_estimators": 600,
-    "learning_rate": 0.03,
+    "eta": 0.03,
     "max_depth": 5,
     "subsample": 0.9,
     "colsample_bytree": 0.9,
     "min_child_weight": 3,
-    "reg_lambda": 1.0,
+    "lambda": 1.0,
     "objective": "reg:squarederror",
-    "random_state": SEED,
-    "n_jobs": 1,                  # deterministic results across machines
+    "tree_method": "hist",
+    "seed": SEED,
+    "nthread": 1,                 # deterministic results across machines
 }
 
 # Rolling-origin backtest: train on everything before each cut-off,
