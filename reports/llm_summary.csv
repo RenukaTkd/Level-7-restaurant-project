@@ -1,0 +1,2 @@
+provider,model,runs,score,faithfulness,coverage,length_ok,latency_s,cost_usd_per_brief
+template,rule-based-v1,4,0.94,1.0,1.0,0.7,0.0,0.0

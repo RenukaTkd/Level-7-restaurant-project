@@ -1,0 +1,5 @@
+method,overstaff_cost,waste_cost,lost_margin,total_cost,annual_saving_vs_naive_gbp
+XGBoost,13140.0,15082.0,7011.0,35233.0,20290.0
+Weekday average (4 wk),16425.0,21903.0,7983.0,46312.0,9211.0
+Seasonal naive (last week),18834.0,25716.0,10973.0,55523.0,0.0
+Moving average (28d),36135.0,45402.0,26904.0,108441.0,-52918.0

@@ -1,0 +1,65 @@
+{
+  "restaurant": "The Riverside Kitchen (pilot site)",
+  "targets": [
+    "covers",
+    "revenue"
+  ],
+  "horizon_days": 14,
+  "features": [
+    "dow",
+    "month",
+    "dayofyear",
+    "weekofyear",
+    "is_weekend",
+    "is_holiday",
+    "is_special_event",
+    "is_payday_week",
+    "promo",
+    "temp_c",
+    "rain",
+    "closed",
+    "lag_14",
+    "lag_21",
+    "lag_28",
+    "lag_35",
+    "lag_364",
+    "roll_mean_7",
+    "roll_mean_28",
+    "roll_std_28",
+    "dow_mean_4w"
+  ],
+  "params": {
+    "n_estimators": 600,
+    "learning_rate": 0.03,
+    "max_depth": 5,
+    "subsample": 0.9,
+    "colsample_bytree": 0.9,
+    "min_child_weight": 3,
+    "reg_lambda": 1.0,
+    "objective": "reg:squarederror",
+    "random_state": 42,
+    "n_jobs": 1
+  },
+  "seed": 42,
+  "train_start": "2024-01-01",
+  "train_end": "2026-10-31",
+  "n_train_days": 1035,
+  "backtest_folds": 12,
+  "data_sha256": "1b72a17a3c519dc5",
+  "residual_quantiles": {
+    "covers": {
+      "q10": -21.541172790527344,
+      "q90": 29.144930267333987,
+      "std": 20.58103598335347
+    },
+    "revenue": {
+      "q10": -770.2942500000003,
+      "q90": 1000.6695107421879,
+      "std": 720.4691927985714
+    }
+  },
+  "python": "3.9.6",
+  "package_version": "1.0.0",
+  "xgboost_version": "2.1.4",
+  "trained_at_utc": "2026-11-13T19:02:01+00:00"
+}

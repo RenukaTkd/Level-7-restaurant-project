@@ -1,0 +1,203 @@
+{
+  "backtest": {
+    "covers": {
+      "XGBoost": {
+        "MAE": 16.3268,
+        "WAPE": 0.0984,
+        "RMSE": 20.8253,
+        "Bias": -3.5548,
+        "WAPE_improvement_vs_naive_%": 29.2
+      },
+      "Weekday average (4 wk)": {
+        "MAE": 18.5417,
+        "WAPE": 0.1118,
+        "RMSE": 22.9934,
+        "Bias": -0.0595,
+        "WAPE_improvement_vs_naive_%": 19.6
+      },
+      "Seasonal naive (last week)": {
+        "MAE": 23.0595,
+        "WAPE": 0.139,
+        "RMSE": 28.1905,
+        "Bias": -1.381,
+        "WAPE_improvement_vs_naive_%": 0.0
+      },
+      "Moving average (28d)": {
+        "MAE": 38.304,
+        "WAPE": 0.2309,
+        "RMSE": 45.796,
+        "Bias": -0.0595,
+        "WAPE_improvement_vs_naive_%": -66.1
+      }
+    },
+    "revenue": {
+      "XGBoost": {
+        "MAE": 568.4664,
+        "WAPE": 0.1076,
+        "RMSE": 726.191,
+        "Bias": -106.6175,
+        "WAPE_improvement_vs_naive_%": 26.1
+      },
+      "Weekday average (4 wk)": {
+        "MAE": 591.4754,
+        "WAPE": 0.1119,
+        "RMSE": 759.641,
+        "Bias": -9.926,
+        "WAPE_improvement_vs_naive_%": 23.2
+      },
+      "Seasonal naive (last week)": {
+        "MAE": 769.7235,
+        "WAPE": 0.1457,
+        "RMSE": 970.9571,
+        "Bias": -44.2082,
+        "WAPE_improvement_vs_naive_%": 0.0
+      },
+      "Moving average (28d)": {
+        "MAE": 1489.3993,
+        "WAPE": 0.2819,
+        "RMSE": 1732.4685,
+        "Bias": -9.926,
+        "WAPE_improvement_vs_naive_%": -93.5
+      }
+    }
+  },
+  "business_impact": {
+    "XGBoost": {
+      "overstaff_cost": 13140.0,
+      "waste_cost": 15082.0,
+      "lost_margin": 7011.0,
+      "total_cost": 35233.0,
+      "annual_saving_vs_naive_gbp": 20290.0
+    },
+    "Weekday average (4 wk)": {
+      "overstaff_cost": 16425.0,
+      "waste_cost": 21903.0,
+      "lost_margin": 7983.0,
+      "total_cost": 46312.0,
+      "annual_saving_vs_naive_gbp": 9211.0
+    },
+    "Seasonal naive (last week)": {
+      "overstaff_cost": 18834.0,
+      "waste_cost": 25716.0,
+      "lost_margin": 10973.0,
+      "total_cost": 55523.0,
+      "annual_saving_vs_naive_gbp": 0.0
+    },
+    "Moving average (28d)": {
+      "overstaff_cost": 36135.0,
+      "waste_cost": 45402.0,
+      "lost_margin": 26904.0,
+      "total_cost": 108441.0,
+      "annual_saving_vs_naive_gbp": -52918.0
+    }
+  },
+  "segment_errors": [
+    {
+      "dimension": "segment",
+      "group": "Friday",
+      "n_days": 24,
+      "MAE": 16.107290267944336,
+      "WAPE": 0.07648891302545786,
+      "RMSE": 19.31583192805579,
+      "Bias": 1.8054828643798828
+    },
+    {
+      "dimension": "segment",
+      "group": "Weekday (Mon-Thu)",
+      "n_days": 96,
+      "MAE": 14.29652452468872,
+      "WAPE": 0.10653313314989654,
+      "RMSE": 17.676402514286046,
+      "Bias": -3.051776727040609
+    },
+    {
+      "dimension": "segment",
+      "group": "Weekend (Sat-Sun)",
+      "n_days": 48,
+      "MAE": 20.497137387593586,
+      "WAPE": 0.09906984136587375,
+      "RMSE": 26.579507838801792,
+      "Bias": -7.241147677103679
+    },
+    {
+      "dimension": "season",
+      "group": "Spring/Autumn",
+      "n_days": 76,
+      "MAE": 15.30025953995554,
+      "WAPE": 0.09645953753932983,
+      "RMSE": 19.28435876022848,
+      "Bias": -4.973745346069336
+    },
+    {
+      "dimension": "season",
+      "group": "Summer",
+      "n_days": 92,
+      "MAE": 17.174828156181004,
+      "WAPE": 0.099923113284554,
+      "RMSE": 22.017120412682694,
+      "Bias": -2.3827110788096553
+    }
+  ],
+  "meta": {
+    "restaurant": "The Riverside Kitchen (pilot site)",
+    "targets": [
+      "covers",
+      "revenue"
+    ],
+    "horizon_days": 14,
+    "features": [
+      "dow",
+      "month",
+      "dayofyear",
+      "weekofyear",
+      "is_weekend",
+      "is_holiday",
+      "is_special_event",
+      "is_payday_week",
+      "promo",
+      "temp_c",
+      "rain",
+      "closed",
+      "lag_14",
+      "lag_21",
+      "lag_28",
+      "lag_35",
+      "lag_364",
+      "roll_mean_7",
+      "roll_mean_28",
+      "roll_std_28",
+      "dow_mean_4w"
+    ],
+    "params": {
+      "n_estimators": 600,
+      "learning_rate": 0.03,
+      "max_depth": 5,
+      "subsample": 0.9,
+      "colsample_bytree": 0.9,
+      "min_child_weight": 3,
+      "reg_lambda": 1.0,
+      "objective": "reg:squarederror",
+      "random_state": 42,
+      "n_jobs": 1
+    },
+    "seed": 42,
+    "train_start": "2024-01-01",
+    "train_end": "2026-10-31",
+    "n_train_days": 1035,
+    "backtest_folds": 12,
+    "data_sha256": "1b72a17a3c519dc5",
+    "residual_quantiles": {
+      "covers": {
+        "q10": -21.541172790527344,
+        "q90": 29.144930267333987,
+        "std": 20.58103598335347
+      },
+      "revenue": {
+        "q10": -770.2942500000003,
+        "q90": 1000.6695107421879,
+        "std": 720.4691927985714
+      }
+    },
+    "python": "3.9.6"
+  }
+}

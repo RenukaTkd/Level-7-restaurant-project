@@ -1,0 +1,10 @@
+# Used by Streamlit Community Cloud (it looks next to the app file first).
+streamlit>=1.40
+pandas==2.3.3
+numpy==2.0.2
+requests==2.32.5
+python-dotenv==1.2.1
+xgboost==2.1.4
+anthropic>=1.0,<2
+openai>=1.60
+google-genai>=1.0

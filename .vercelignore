@@ -1,0 +1,10 @@
+.venv
+venv
+tests
+app
+docs
+notebooks
+.github
+reports/*.csv
+reports/*.md
+*.ipynb
