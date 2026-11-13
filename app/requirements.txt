@@ -1,6 +1,6 @@
 # Used by Streamlit Community Cloud (it looks next to the app file first).
 # Ranges (not exact pins) so wheels exist for whichever Python version the app runs on (3.10-3.14).
-streamlit>=1.40
+streamlit>=1.50
 pandas>=2.2,<3
 numpy>=2.0.2,<2.4
 requests>=2.32

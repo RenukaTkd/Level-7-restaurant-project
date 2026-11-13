@@ -1,5 +1,5 @@
 -r requirements.txt
-streamlit>=1.40
+streamlit>=1.50
 requests==2.32.5
 uvicorn==0.39.0
 httpx==0.28.1
