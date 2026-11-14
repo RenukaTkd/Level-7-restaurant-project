@@ -4,6 +4,16 @@ Forecasts **daily covers and revenue 14 days ahead** for one restaurant using **
 **staffing rota headcount and food-prep plan**, and uses **three LLMs (Claude, OpenAI GPT, Google Gemini)** to write a
 manager briefing, with an automatic comparison to show which LLM does that job best.
 
+## Live pilot
+
+| | Link |
+|---|---|
+| **Manager UI** (Streamlit) | https://level-7-restaurant-project-ppkk7axcc6vprouutqcwkw.streamlit.app/ |
+| **API** (FastAPI on Vercel) | https://level-7-restaurant-project-renukas-projects-bea33a15.vercel.app |
+| API docs (Swagger) | https://level-7-restaurant-project-renukas-projects-bea33a15.vercel.app/docs |
+| Health check | https://level-7-restaurant-project-renukas-projects-bea33a15.vercel.app/health |
+| Source & CI | https://github.com/RenukaTkd/Level-7-restaurant-project |
+
 | Layer | Technology | Where it runs |
 |---|---|---|
 | Model | XGBoost (direct multi-horizon), pandas | trained locally / CI |
