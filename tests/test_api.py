@@ -41,3 +41,23 @@ def test_horizon_validation(client):
 def test_template_briefing_is_faithful(client):
     r = client.post("/explain", json={"provider": "template"}).json()
     assert r["evaluation"]["faithfulness"] == 1.0
+
+
+@pytest.mark.parametrize("url", ["/health", "/api/index?__path=health", "/api/index/health", "/api/index?__path=/health"])
+def test_vercel_rewritten_paths_are_restored(client, url):
+    assert client.get(url).json()["status"] == "ok"
+
+
+def test_vercel_rewrite_root_and_post(client):
+    assert client.get("/api/index?__path=").json()["service"] == "restaurant-forecast-api"
+    r = client.post("/api/index?__path=forecast", json={"horizon": 3})
+    assert r.status_code == 200 and len(r.json()["forecast"]) == 3
+
+
+def test_api_key_check_sees_restored_path(monkeypatch):
+    import api.index as m
+    monkeypatch.setattr(m, "API_KEY", "secret")
+    c = TestClient(m.app)
+    assert c.get("/api/index?__path=health").status_code == 200          # /health stays public
+    assert c.get("/api/index?__path=metrics").status_code == 401         # protected without key
+    assert c.get("/api/index?__path=metrics", headers={"x-api-key": "secret"}).status_code == 200

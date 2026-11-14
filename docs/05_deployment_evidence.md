@@ -29,7 +29,7 @@ done
 ```
 
 ## Local verification already completed
-- `pytest -q`: **12 passed**. These cover metrics, leakage, staffing rules, `/health`, `/forecast` shape,
+- `pytest -q`: **18 passed**. These cover metrics, leakage, staffing rules, `/health`, `/forecast` shape,
   promo uplift, input validation (horizon > 14 → HTTP 422) and briefing faithfulness.
 - The pipeline retrains deterministically (identical model hash on repeat runs).
 

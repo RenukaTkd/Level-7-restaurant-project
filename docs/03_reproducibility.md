@@ -8,7 +8,7 @@
 | Single entry point | `python scripts/train.py` regenerates **every** artefact (data → backtest → model → reports) |
 | Config in one place | all hyper-parameters, horizons, staffing ratios and cost assumptions are in `config.py` |
 | Model lineage | `model_meta.json` records features, params, training window, xgboost and Python versions, training time |
-| Automated checks | GitHub Actions retrains on every push, compares the model hash and runs 12 tests |
+| Automated checks | GitHub Actions retrains on every push, compares the model hash and runs 18 tests |
 | Leakage test | `tests/test_pipeline.py::test_no_leakage_lags_respect_horizon` |
 
 ## Evidence

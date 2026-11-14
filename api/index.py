@@ -33,6 +33,31 @@ app = FastAPI(
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
                    allow_methods=["GET", "POST"], allow_headers=["*"])
 
+class VercelPathFix:
+    """Restore the original request path on Vercel.
+
+    vercel.json rewrites every URL to this function as /api/index?__path=<original>,
+    so FastAPI would otherwise see "/api/index" for every request. Normal paths
+    (local uvicorn, tests) pass through unchanged.
+    """
+
+    PREFIX = "/api/index"
+
+    def __init__(self, asgi_app):
+        self.app = asgi_app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http" and scope["path"].startswith(self.PREFIX):
+            from urllib.parse import parse_qsl, urlencode
+            params = parse_qsl(scope.get("query_string", b"").decode(), keep_blank_values=True)
+            original = next((v for k, v in params if k == "__path"), None)
+            rest = scope["path"][len(self.PREFIX):]
+            path = "/" + (original if original is not None else rest).lstrip("/")
+            scope = {**scope, "path": path, "raw_path": path.encode(),
+                     "query_string": urlencode([(k, v) for k, v in params if k != "__path"]).encode()}
+        await self.app(scope, receive, send)
+
+
 API_KEY = os.getenv("API_KEY")  # optional: set on Vercel to require an x-api-key header
 
 
@@ -49,6 +74,10 @@ async def audit_log(request: Request, call_next):
              response.status_code, 1000 * (time.perf_counter() - t0))
     response.headers["x-request-id"] = rid
     return response
+
+
+# Added last = runs first, so logging and the API-key check see the restored path.
+app.add_middleware(VercelPathFix)
 
 
 class DayOverride(BaseModel):

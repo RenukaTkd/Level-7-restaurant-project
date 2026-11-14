@@ -6,5 +6,5 @@
       "includeFiles": "{src/**,models/**,reports/metrics.json,data/sales_history.csv}"
     }
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index?__path=$1" }]
 }
