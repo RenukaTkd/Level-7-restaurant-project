@@ -116,6 +116,8 @@ tests/                     unit + API tests
 
 ## Pilot enhancement documents
 
+**Final submission report: [docs/FINAL_REPORT.md](docs/FINAL_REPORT.md)**
+
 1. [Project overview & problem statement](docs/01_project_overview.md)
 2. [Baseline comparison](docs/02_baseline_comparison.md)
 3. [Reproducibility](docs/03_reproducibility.md)
