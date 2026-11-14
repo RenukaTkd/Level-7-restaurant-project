@@ -29,11 +29,13 @@ def build_facts(forecast: pd.DataFrame, plan: pd.DataFrame, wape: float) -> dict
                 "covers_high": int(round(r["covers_high"])), "revenue_gbp": int(round(r["revenue"])),
                 "foh_staff": int(r["foh_staff"]), "kitchen_staff": int(r["kitchen_staff"])}
 
+    daily = [day(r) for _, r in f.iterrows()]
     return {
         "restaurant": config.RESTAURANT_NAME,
         "period": f"{f['date'].min():%d %b} to {f['date'].max():%d %b %Y}",
-        "total_covers": int(round(f["covers"].sum())),
-        "total_revenue_gbp": int(round(f["revenue"].sum())),
+        # totals are sums of the rounded daily figures, so they add up exactly
+        "total_covers": sum(d["covers"] for d in daily),
+        "total_revenue_gbp": sum(d["revenue_gbp"] for d in daily),
         "total_labour_hours": int(f["labour_hours"].sum()),
         "model_wape_pct": round(100 * wape, 1),
         "peak_day": day(peak),
@@ -41,7 +43,7 @@ def build_facts(forecast: pd.DataFrame, plan: pd.DataFrame, wape: float) -> dict
         "peak_day_prep": {c.replace("prep: ", ""): int(peak[c]) for c in f.columns if c.startswith("prep: ")},
         "promo_days": [d.strftime("%Y-%m-%d") for d in f.loc[f["promo"] == 1, "date"]],
         "closed_days": [d.strftime("%Y-%m-%d") for d in f.loc[f["closed"] == 1, "date"]],
-        "daily": [day(r) for _, r in f.iterrows()],
+        "daily": daily,
     }
 
 
@@ -69,7 +71,9 @@ def numeric_faithfulness(text: str, facts: dict) -> tuple[float, list[str]]:
     for m in NUM_RE.finditer(text):
         val = float(m.group(1).replace(",", "")) * (1000 if m.group(2) else 1)
         found += 1
-        if not any(abs(val - a) <= max(1.0, 0.01 * abs(a)) for a in allowed):
+        # exact numbers only (±1 for rounding); "£62.7k" style gets ±0.5% for its own rounding
+        tol = (lambda a: max(1.0, 0.005 * abs(a))) if m.group(2) else (lambda a: 1.0)
+        if not any(abs(val - a) <= tol(a) for a in allowed):
             bad.append(m.group(0))
     return (1.0 if found == 0 else (found - len(bad)) / found), bad
 

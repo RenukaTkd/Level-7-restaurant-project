@@ -58,7 +58,7 @@ pip install -r requirements-dev.txt
 cp .env.example .env                                       # add your 3 LLM API keys
 
 python scripts/train.py          # data → backtest → baselines → model → reports (≈10 s)
-pytest -q                        # 11 tests
+pytest -q                        # 12 tests
 python scripts/compare_llms.py   # Claude vs GPT vs Gemini → reports/llm_summary.csv
 
 uvicorn api.index:app --reload   # API docs at http://127.0.0.1:8000/docs

@@ -17,7 +17,7 @@
 | S__ | Feature engineering | calendar, lag, rolling, weather, event features with no leakage (`features.py`, leakage test) |
 | S__ | Build, tune & evaluate models | `model.py`, `config.XGB_PARAMS`, `reports/model_report.md` |
 | S__ | Deploy models into production | `api/index.py`, `vercel.json`, live URLs and screenshots |
-| S__ | Test & assure AI solutions | 11 pytest tests, GitHub Actions CI, reproducibility hash check |
+| S__ | Test & assure AI solutions | 12 pytest tests, GitHub Actions CI, reproducibility hash check |
 | S__ | Communicate insight to non-technical stakeholders | Streamlit UI, LLM manager briefing, `docs/06` business case |
 | S__ | Evaluate & compare AI technologies | LLM comparison (quality, latency, cost) and recommendation |
 | S__ | Quantify business value | cost model in `operations.py`, `docs/06` |
