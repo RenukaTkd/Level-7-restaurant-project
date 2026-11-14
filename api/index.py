@@ -76,6 +76,15 @@ async def audit_log(request: Request, call_next):
     return response
 
 
+@app.exception_handler(404)
+async def not_found(request: Request, exc):
+    """404 that shows the path the app actually received (helps debug proxy rewrites)."""
+    from fastapi.responses import JSONResponse
+    return JSONResponse({"detail": "Not Found", "path": request.scope.get("path"),
+                         "root_path": request.scope.get("root_path", ""),
+                         "query": request.scope.get("query_string", b"").decode()[:200]}, status_code=404)
+
+
 # Added last = runs first, so logging and the API-key check see the restored path.
 app.add_middleware(VercelPathFix)
 
